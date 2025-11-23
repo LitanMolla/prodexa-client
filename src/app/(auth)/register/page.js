@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const Register = () => {
-    const { createUser } = useAuth()
+    const { createUser, updateUser } = useAuth()
     const [loading, setLoading] = useState(false)
     const { handleSubmit, register, formState: { errors },reset } = useForm()
     const handleRegister = (data) => {
@@ -15,13 +15,13 @@ const Register = () => {
         const email = data?.email;
         const password = data?.password;
         const displayName = data?.name
-        // console.log({email,password})
+        console.log({email,password,displayName})
         createUser(email, password)
             .then(result => {
                 reset()
                 setLoading(false)
                 toast.success('Register successful')
-                console.log(result.user)
+                updateUser({displayName})
             })
             .catch(error => {
                 setLoading(false)
