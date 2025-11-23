@@ -1,13 +1,33 @@
 'use client'
+import GooogleLogin from '@/components/GooogleLogin/GooogleLogin'
+import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 const Register = () => {
-    const { handleSubmit, register, formState: { errors } } = useForm()
+    const { createUser } = useAuth()
+    const [loading, setLoading] = useState(false)
+    const { handleSubmit, register, formState: { errors },reset } = useForm()
     const handleRegister = (data) => {
-
-        console.log(data)
+        setLoading(true)
+        const email = data?.email;
+        const password = data?.password;
+        const displayName = data?.name
+        // console.log({email,password})
+        createUser(email, password)
+            .then(result => {
+                reset()
+                setLoading(false)
+                toast.success('Register successful')
+                console.log(result.user)
+            })
+            .catch(error => {
+                setLoading(false)
+                toast.error(error.code)
+                // console.log(error.code)
+            })
     }
     return (
         <section className="flex items-center justify-center my-10 lg:my-20">
@@ -25,7 +45,7 @@ const Register = () => {
                             placeholder="Your full name"
                             className="w-full border border-slate-300 rounded-md px-3 py-2  focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
-                        {errors.name && <p className='text-red-500 mt-1'>{errors.name.message}</p>}
+                        {errors.name && <p className='text-red-500 mt-1 text-sm'>{errors.name.message}</p>}
                     </div>
 
                     <div>
@@ -36,47 +56,34 @@ const Register = () => {
                             placeholder="Your email"
                             className="w-full border border-slate-300 rounded-md px-3 py-2  focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
-                        {errors.email && <p className='text-red-500 mt-1'>{errors.email.message}</p>}
+                        {errors.email && <p className='text-red-500 mt-1 text-sm'>{errors.email.message}</p>}
                     </div>
 
                     <div>
                         <label className="block  text-slate-700 mb-1">Password</label>
                         <input
-                            {...register('password',{required: 'Password is required', pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/, message: 'Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, and one number.'}})}
+                            {...register('password', { required: 'Password is required', pattern: { value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/, message: 'Password must be at least 6 characters long and include at least one uppercase letter, one lowercase letter, and one number.' } })}
                             type="password"
                             placeholder="•••••••"
                             className="w-full border border-slate-300 rounded-md px-3 py-2  focus:outline-none focus:ring-2 focus:ring-purple-400"
                         />
-                        {errors.password && <p className='text-red-500 mt-1'>{errors.password.message}</p>}
+                        {errors.password && <p className='text-red-500 mt-1 text-sm'>{errors.password.message}</p>}
                     </div>
 
                     <button
                         type="submit"
                         className="w-full btn-primary text-white py-2 rounded-md  font-semibold transition"
-                    >Register</button>
+                    >{loading?<span>Loading...</span>: 'Register'}</button>
                 </form>
                 <div className="flex items-center gap-3 my-4">
                     <div className="h-px bg-slate-200 flex-1" />
                     <span className="text-xs text-slate-500">OR</span>
                     <div className="h-px bg-slate-200 flex-1" />
                 </div>
-                <button
-                    className="w-full flex items-center justify-center gap-3 border border-slate-300 rounded-md py-2 hover:bg-slate-50 transition  cursor-pointer"
-                >
-                    <img
-                        src="https://www.svgrepo.com/show/475656/google-color.svg"
-                        alt="google"
-                        className="w-5 h-5"
-                    />
-                    Continue with Google
-                </button>
+                <GooogleLogin/>
 
                 {/* Footer */}
-                <p className="text-center  text-slate-600 mt-4">
-                    Already have an account?
-                    <Link href="/login" className="text-purple-600 hover:underline">
-                        Login
-                    </Link>
+                <p className="text-center  text-slate-600 mt-4">Already have an account?<Link href="/login" className="text-purple-600 hover:underline"> Login</Link>
                 </p>
 
             </div>
