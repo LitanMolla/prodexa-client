@@ -34,6 +34,7 @@ const Navbar = () => {
                             />
                         </li>
                     </ul>
+                    <Link className='btn-primary' href='/login'>Login</Link>
                 </div>
             </nav>
         </header>

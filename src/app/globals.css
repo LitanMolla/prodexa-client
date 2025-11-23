@@ -6,3 +6,6 @@
 .logo {
   @apply inline-block text-2xl font-bold bg-linear-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent
 }
+.btn-primary{
+  @apply inline-block bg-linear-to-r from-blue-500 to-purple-500 text-slate-100 px-6 py-2.5 cursor-pointer rounded-md hover:bg-linear-to-l
+}
