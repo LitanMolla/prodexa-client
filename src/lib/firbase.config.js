@@ -1,6 +1,14 @@
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+// const firebaseConfig = {
+//   apiKey: process.env.apiKey,
+//   authDomain: process.env.authDomain,
+//   projectId: process.env.projectId,
+//   storageBucket: process.env.storageBucket,
+//   messagingSenderId: process.env.messagingSenderId,
+//   appId: process.env.appId,
+// };
 const firebaseConfig = {
   apiKey: "AIzaSyAnFnWRnjyjoCxVCq0B6Znh5H93phdn9Dc",
   authDomain: "prodexa-24718.firebaseapp.com",

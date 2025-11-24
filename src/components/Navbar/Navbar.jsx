@@ -1,10 +1,14 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import CustomLink from '../ui/CustomLink'
+import useAuth from '@/hooks/useAuth'
 
 const Navbar = () => {
+    const { user, userLogOut } = useAuth()
+    console.log(user)
     return (
-        <header className='sticky top-0 py-3 bg-white shadow-sm'>
+        <header className='sticky top-0 py-3 bg-white shadow-sm z-50'>
             <nav className="container">
                 <div className="flex justify-between items-center">
                     <Link className='logo' href='/'>Prodexa</Link>
@@ -33,8 +37,16 @@ const Navbar = () => {
                                 label='Contact'
                             />
                         </li>
+                        {
+                            user && <li>
+                            <CustomLink
+                                href='/manage'
+                                label='Manage Products'
+                            />
+                        </li>
+                        }
                     </ul>
-                    <Link className='btn-primary' href='/login'>Login</Link>
+                    {user ? <button onClick={() => userLogOut()} className='btn-primary'>Logout</button> : <Link className='btn-primary' href='/login'>Login</Link>}
                 </div>
             </nav>
         </header>

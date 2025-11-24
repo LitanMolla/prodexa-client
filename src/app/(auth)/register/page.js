@@ -32,7 +32,7 @@ const Register = () => {
     return (
         <section className="flex items-center justify-center my-10 lg:my-20">
             <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8 border border-slate-200">
-                <h1 className="text-3xl font-bold bg-linear-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent text-center">
+                <h1 className="heading text-center">
                     Register
                 </h1>
                 {/* Form */}

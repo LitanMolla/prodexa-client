@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react'
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { auth } from '@/lib/firbase.config';
-import AuthContex from './AuthContex';
+import AuthContext from './AuthContex';
+// import AuthContext from './AuthContext';
 const ContexProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,7 @@ const ContexProvider = ({ children }) => {
   }
   // google login
   const googleLogin = () => {
-    return signInWithPopup(auth,googleProvider)
+    return signInWithPopup(auth, googleProvider)
   }
   // user observer 
   useEffect(() => {
@@ -56,9 +57,9 @@ const ContexProvider = ({ children }) => {
     googleLogin
   }
   return (
-    <AuthContex value={authInfo}>
+    <AuthContext.Provider value={authInfo}>
       {children}
-    </AuthContex>
+    </AuthContext.Provider>
   )
 }
 
