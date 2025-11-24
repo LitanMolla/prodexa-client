@@ -6,7 +6,7 @@ import useAuth from '@/hooks/useAuth'
 
 const Navbar = () => {
     const { user, userLogOut } = useAuth()
-    console.log(user)
+    // console.log(user)
     return (
         <header className='sticky top-0 py-3 bg-white shadow-sm z-50'>
             <nav className="container">

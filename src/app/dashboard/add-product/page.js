@@ -1,14 +1,26 @@
 'use client'
 import useAuth from '@/hooks/useAuth'
+import useAxios from '@/hooks/useAxios'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 const AddProduct = () => {
+    const axios = useAxios()
     const { user } = useAuth()
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const handleAddProduct = (data) => {
         const newProduct = { ...data, ownerEmail: user?.email, ownerName: user?.displayName, date: new Date(), stock: 'In stock' }
-        console.log(newProduct)
+        axios.post('/products',newProduct)
+        .then(data=>{
+            if (data.data.success) {
+                toast.success('Product added success')
+                reset()
+            }
+        })
+        .catch(error=>{
+            console.log(error.message)
+        })
     }
     return (
         <>

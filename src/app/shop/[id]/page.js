@@ -1,21 +1,26 @@
 'use client'
-import React from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import useAxios from '@/hooks/useAxios'
 
 const ProductDetails = () => {
+    const axios = useAxios()
+    const {id} = useParams()
     const router = useRouter()
-    const product = {
-        id: 1,
-        title: "Wireless Noise Cancelling Headphone",
-        description:
-            "Experience immersive, high-fidelity sound with advanced noise cancellation technology. Designed for all-day comfort with soft ear cushions, long-lasting battery life, and seamless wireless connectivity. Perfect for work, travel, gaming, and music lovers who want both style and performance.",
-        image:
-            "https://images.pexels.com/photos/3394653/pexels-photo-3394653.jpeg",
-        price: 120,
-        date: "2025-01-20",
-        priority: "High",
-    }
-
+    const [product,setProduct] = useState({})
+    useEffect(()=>{
+        axios.get(`/products/${id}`)
+        .then(data=>{
+            setProduct(data.data)
+        })
+        .catch(error=>{
+            console.log(error.message)
+        })
+    },[])
+    console.log({product})
+    const { _id, title, shortDescription, fullDescription, price, priority, photo, category, ownerEmail, ownerName, date, stock
+    } = product || {};
+    const formateDate = date ? new Date(date).toLocaleDateString() : "N/A";
     return (
         <div className="my-10 lg:my-20">
             <div className="container">
@@ -29,8 +34,8 @@ const ProductDetails = () => {
                             <div className="relative">
                                 <div className="w-full h-64 sm:h-80 rounded-2xl overflow-hidden bg-slate-100">
                                     <img
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={photo}
+                                        alt={title}
                                         className="w-full h-full object-cover object-center"
                                     />
                                 </div>
@@ -44,8 +49,8 @@ const ProductDetails = () => {
 
                                 {/* Small meta box bottom-left on image */}
                                 <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm border border-slate-200 text-xs text-slate-700 px-3 py-2 rounded-xl shadow-sm flex flex-col gap-1">
-                                    <span><span className="font-semibold">Date:</span> {product.date}</span>
-                                    <span><span className="font-semibold">Priority:</span> {product.priority}</span>
+                                    <span><span className="font-semibold">Date:</span> {formateDate}</span>
+                                    <span><span className="font-semibold">Priority:</span> {priority}</span>
                                 </div>
                             </div>
 
@@ -53,27 +58,27 @@ const ProductDetails = () => {
                             <div className="flex flex-col h-full">
                                 {/* Title */}
                                 <h1 className="heading">
-                                    {product.title}
+                                    {title}
                                 </h1>
 
                                 {/* Price */}
                                 <div className="mt-3 flex items-center gap-3">
                                     <p className="text-2xl font-semibold text-slate-900">
-                                        ${product.price}
+                                        ${price}
                                     </p>
                                     <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium border border-emerald-100">
-                                        In stock
+                                        {stock}
                                     </span>
                                 </div>
 
                                 {/* Short meta line */}
                                 <p className="mt-2 text-sm text-slate-500">
-                                    Premium wireless audio • Noise cancellation • All-day comfort
+                                    Owner: {ownerName} • {ownerEmail}
                                 </p>
 
                                 {/* Description */}
                                 <p className="mt-5 text-slate-700 leading-relaxed text-[15px]">
-                                    {product.description}
+                                    {fullDescription}
                                 </p>
 
                                 {/* Divider */}

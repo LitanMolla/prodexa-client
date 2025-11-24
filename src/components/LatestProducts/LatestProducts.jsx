@@ -1,15 +1,29 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '../ProductCard/ProductCard'
+import useAxios from '@/hooks/useAxios'
 
 const LatestProducts = () => {
+    const axios = useAxios()
+    const [products, setProducts] = useState([])
+    useEffect(()=>{
+        axios.get('/latest')
+        .then(data=>{
+            setProducts(data.data.products)
+        })
+        .catch(error=>{
+            console.log(error.code)
+        })
+    },[])
+    // console.log(products)
     return (
         <div>
             <div className="my-10 lg:my-20">
                 <div className="container">
                     <h1 className='heading text-center mb-5'>Latest Products</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {Array.from({ length: 6 }).map((item, i) => (
-                            <ProductCard key={i} />
+                        {products?.map((item, i) => (
+                            <ProductCard product={item} key={i} />
                         ))}
                     </div>
                 </div>
