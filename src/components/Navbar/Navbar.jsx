@@ -12,7 +12,7 @@ const Navbar = () => {
             <nav className="container">
                 <div className="flex justify-between items-center">
                     <Link className='logo' href='/'>Prodexa</Link>
-                    <ul className='flex gap-5'>
+                    <ul className='flex gap-5 flex-wrap'>
                         <li>
                             <CustomLink
                                 href='/'
@@ -39,11 +39,19 @@ const Navbar = () => {
                         </li>
                         {
                             user && <li>
-                            <CustomLink
-                                href='/manage'
-                                label='Manage Products'
-                            />
-                        </li>
+                                <CustomLink
+                                    href='/dashboard/manage'
+                                    label='Manage Products'
+                                />
+                            </li>
+                        }
+                        {
+                            user && <li>
+                                <CustomLink
+                                    href='/dashboard/add-product'
+                                    label='Add Product'
+                                />
+                            </li>
                         }
                     </ul>
                     {user ? <button onClick={() => userLogOut()} className='btn-primary'>Logout</button> : <Link className='btn-primary' href='/login'>Login</Link>}
