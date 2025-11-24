@@ -2,26 +2,29 @@
 import GooogleLogin from '@/components/GooogleLogin/GooogleLogin'
 import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const Register = () => {
+    const router = useRouter();
     const { createUser, updateUser } = useAuth()
     const [loading, setLoading] = useState(false)
-    const { handleSubmit, register, formState: { errors },reset } = useForm()
+    const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const handleRegister = (data) => {
         setLoading(true)
         const email = data?.email;
         const password = data?.password;
         const displayName = data?.name
-        console.log({email,password,displayName})
+        console.log({ email, password, displayName })
         createUser(email, password)
             .then(result => {
                 reset()
                 setLoading(false)
                 toast.success('Register successful')
-                updateUser({displayName})
+                updateUser({ displayName })
+                router.push('/')
             })
             .catch(error => {
                 setLoading(false)
@@ -73,14 +76,14 @@ const Register = () => {
                     <button
                         type="submit"
                         className="w-full btn-primary text-white py-2 rounded-md  font-semibold transition"
-                    >{loading?<span>Loading...</span>: 'Register'}</button>
+                    >{loading ? <span>Loading...</span> : 'Register'}</button>
                 </form>
                 <div className="flex items-center gap-3 my-4">
                     <div className="h-px bg-slate-200 flex-1" />
                     <span className="text-xs text-slate-500">OR</span>
                     <div className="h-px bg-slate-200 flex-1" />
                 </div>
-                <GooogleLogin/>
+                <GooogleLogin />
 
                 {/* Footer */}
                 <p className="text-center  text-slate-600 mt-4">Already have an account?<Link href="/login" className="text-purple-600 hover:underline"> Login</Link>

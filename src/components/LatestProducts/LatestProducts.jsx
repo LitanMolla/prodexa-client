@@ -2,19 +2,24 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../ProductCard/ProductCard'
 import useAxios from '@/hooks/useAxios'
+import Loader from '../Loader/Loader'
 
 const LatestProducts = () => {
+    const [loading, setLoading] = useState(false)
     const axios = useAxios()
     const [products, setProducts] = useState([])
-    useEffect(()=>{
+    useEffect(() => {
+        setLoading(true)
         axios.get('/latest')
-        .then(data=>{
-            setProducts(data.data.products)
-        })
-        .catch(error=>{
-            console.log(error.code)
-        })
-    },[])
+            .then(data => {
+                setProducts(data.data.products)
+            })
+            .catch(error => {
+                console.log(error.code)
+            })
+            .finally(() => setLoading(false))
+    }, [])
+      if (loading) return <Loader/>
     // console.log(products)
     return (
         <div>

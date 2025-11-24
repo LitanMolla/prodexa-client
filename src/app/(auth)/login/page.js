@@ -2,27 +2,32 @@
 import GooogleLogin from '@/components/GooogleLogin/GooogleLogin'
 import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const Register = () => {
-    const { loginUser,user } = useAuth()
+    const router = useRouter();
+    const { loginUser, user } = useAuth()
     console.log(user)
     const [loading, setLoading] = useState(false)
-    const { handleSubmit, register, formState: { errors },reset } = useForm()
+    const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const handleLogin = (data) => {
         setLoading(true)
         const email = data?.email;
         const password = data?.password;
         // console.log({email,password})
-        loginUser(email,password)
-        .then(result=>{
-          toast.success('Login successful')
-        })
-        .catch(error=>{
-          toast.error(error.code)
-        })
+        loginUser(email, password)
+            .then(result => {
+                toast.success('Login successful')
+                router.push('/')
+                setLoading(false)
+            })
+            .catch(error => {
+                toast.error(error.code)
+                setLoading(false)
+            })
     }
     return (
         <section className="flex items-center justify-center my-10 lg:my-20">
@@ -55,14 +60,14 @@ const Register = () => {
                     <button
                         type="submit"
                         className="w-full btn-primary text-white py-2 rounded-md  font-semibold transition"
-                    >{loading?<span>Loading...</span>: 'Login'}</button>
+                    >{loading ? <span>Loading...</span> : 'Login'}</button>
                 </form>
                 <div className="flex items-center gap-3 my-4">
                     <div className="h-px bg-slate-200 flex-1" />
                     <span className="text-xs text-slate-500">OR</span>
                     <div className="h-px bg-slate-200 flex-1" />
                 </div>
-                <GooogleLogin/>
+                <GooogleLogin />
 
                 {/* Footer */}
                 <p className="text-center  text-slate-600 mt-4">Dont't have an account?<Link href="/register" className="text-purple-600 hover:underline"> Register</Link>

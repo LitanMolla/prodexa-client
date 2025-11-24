@@ -2,22 +2,27 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import useAxios from '@/hooks/useAxios'
+import Loader from '@/components/Loader/Loader'
 
 const ProductDetails = () => {
+    const [loading, setLoading] = useState(false)
     const axios = useAxios()
-    const {id} = useParams()
+    const { id } = useParams()
     const router = useRouter()
-    const [product,setProduct] = useState({})
-    useEffect(()=>{
+    const [product, setProduct] = useState({})
+    useEffect(() => {
+        setLoading(true)
         axios.get(`/products/${id}`)
-        .then(data=>{
-            setProduct(data.data)
-        })
-        .catch(error=>{
-            console.log(error.message)
-        })
-    },[])
-    console.log({product})
+            .then(data => {
+                setProduct(data.data)
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
+            .finally(() => setLoading(false))
+    }, [])
+    if (loading) return <Loader />
+    console.log({ product })
     const { _id, title, shortDescription, fullDescription, price, priority, photo, category, ownerEmail, ownerName, date, stock
     } = product || {};
     const formateDate = date ? new Date(date).toLocaleDateString() : "N/A";
