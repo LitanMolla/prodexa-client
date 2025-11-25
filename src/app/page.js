@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero/Hero";
 import LatestProducts from "@/components/LatestProducts/LatestProducts";
+import NewsletterSection from "@/components/NewsletterSection/NewsletterSection";
 import TestimonialsSection from "@/components/TestimonialsSection/TestimonialsSection";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero/>
       <LatestProducts/>
       <TestimonialsSection />
+      <NewsletterSection/>
     </>
   );
 }
