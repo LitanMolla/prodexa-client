@@ -3,15 +3,20 @@ import GooogleLogin from '@/components/GooogleLogin/GooogleLogin'
 import useAuth from '@/hooks/useAuth'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const Register = () => {
     const router = useRouter();
-    const { createUser, updateUser } = useAuth()
+    const { createUser, updateUser , user} = useAuth()
     const [loading, setLoading] = useState(false)
     const { handleSubmit, register, formState: { errors }, reset } = useForm()
+    useEffect(() => {
+        if (user) {
+            router.push('/')
+        }
+    }, [user])
     const handleRegister = (data) => {
         setLoading(true)
         const email = data?.email;

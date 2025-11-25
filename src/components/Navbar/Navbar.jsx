@@ -83,6 +83,9 @@ const Navbar = () => {
                 <ul className='text-slate-300 text-center mt-20'>
                     {link}
                 </ul>
+                <div className="flex justify-center mt-5">
+                    {user?<button onClick={() => userLogOut().then(() => toast.info('Logged out successfully'))} className='btn-primary'>Logout</button>:<Link className='btn-primary' href='/login'>Login</Link>}
+                </div>
             </div>
         </header>
     )

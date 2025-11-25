@@ -2,6 +2,7 @@
 import useAuth from '@/hooks/useAuth'
 import useAxios from '@/hooks/useAxios'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -11,6 +12,12 @@ const ManageProducts = () => {
   const [products, setProducts] = useState([])
   const userEmail = user?.email;
   const [deleteCount, setDeleteCount] = useState(0)
+  const router = useRouter()
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user])
   useEffect(() => {
     axios.get(`/products?email=${userEmail}`)
       .then(data => {
@@ -19,7 +26,7 @@ const ManageProducts = () => {
       .catch(error => {
         console.log(error.message)
       })
-  }, [userEmail,deleteCount])
+  }, [userEmail, deleteCount])
 
   const handleDelete = (id) => {
     axios.delete(`/products/${id}`).then(data => {
@@ -171,8 +178,8 @@ const ManageProducts = () => {
                 </div>
               ))}
             </div>
-            {products.length==0 &&<h4 className='capitalize text-center py-10 text-xl text-slate-600 font-bold'>no product found</h4>}
-            
+            {products.length == 0 && <h4 className='capitalize text-center py-10 text-xl text-slate-600 font-bold'>no product found</h4>}
+
           </div>
         </div>
       </div>

@@ -1,26 +1,34 @@
 'use client'
+import Loader from '@/components/Loader/Loader'
 import useAuth from '@/hooks/useAuth'
 import useAxios from '@/hooks/useAxios'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const AddProduct = () => {
     const axios = useAxios()
-    const { user } = useAuth()
+    const { user, loading } = useAuth()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
+    const router = useRouter()
+    useEffect(() => {
+        if (!user) {
+            router.push('/login')
+        }
+    }, [user])
     const handleAddProduct = (data) => {
         const newProduct = { ...data, ownerEmail: user?.email, ownerName: user?.displayName, date: new Date(), stock: 'In stock' }
-        axios.post('/products',newProduct)
-        .then(data=>{
-            if (data.data.success) {
-                toast.success('Product added success')
-                reset()
-            }
-        })
-        .catch(error=>{
-            console.log(error.message)
-        })
+        axios.post('/products', newProduct)
+            .then(data => {
+                if (data.data.success) {
+                    toast.success('Product added success')
+                    reset()
+                }
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
     }
     return (
         <>
