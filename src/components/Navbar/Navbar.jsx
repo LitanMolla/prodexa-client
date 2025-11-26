@@ -66,7 +66,7 @@ const Navbar = () => {
                     {user
                         &&
                         <div className='hidden lg:block'>
-                            <button onClick={() => setInfoOpen(true)} className='btn-primary rounded-full! p-px! relative'>
+                            <button onClick={() => setInfoOpen(!infoOpen)} className='btn-primary rounded-full! p-px! relative'>
                                 <img className='size-12 rounded-full' src={user?.photoURL || 'https://img.freepik.com/premium-vector/male-face-avatar-icon-set-flat-design-social-media-profiles_1281173-3806.jpg'} alt={user?.displayName} />
                                 {infoOpen && <div className="absolute top-[66px] right-0 bg-slate-200 text-slate-900 p-5 rounded-md space-y-2">
                                     <p className='whitespace-nowrap text-lg font-medium'>{user?.displayName}</p>
